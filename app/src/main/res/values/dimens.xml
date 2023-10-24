@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="layout_margin">30dp</dimen>
+    <dimen name="image_width">100dp</dimen>
+    <dimen name="image_height">200dp</dimen>
+    <!-- 추가적인 차원 값들 -->
+</resources>

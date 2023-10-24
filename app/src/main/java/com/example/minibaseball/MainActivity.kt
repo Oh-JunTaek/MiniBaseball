@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
                 //스크롤 뷰 설정
                 binding.boardText.text = TextUtils.concat(prevText,userInputTextBoard ,ballInfoBoard ,strikeInfoBoard)
-                binding.board.fullScroll(View.FOCUS_DOWN)
+                scrollToBottom()
 
                 // 입력 초기화
                 inputNumber.fill(null)
@@ -102,7 +102,12 @@ class MainActivity : AppCompatActivity() {
             ).forEach { it.setImageResource(R.drawable.baseline_question_mark_24) }
         }
     }
-            //입력된 값 표기
+
+    private fun scrollToBottom() {
+        binding.board.fullScroll(View.FOCUS_DOWN)
+    }
+
+    //입력된 값 표기
         private fun addNumberToInput(number: Int) {
                 // 첫 번째 빈 위치 찾기
                 val position = inputNumber.indexOf(null)

@@ -4,28 +4,39 @@
     android:layout_height="match_parent"
     android:background="@drawable/mbmain">
 
-    <Button
+    <ImageButton
         android:id="@+id/startButton"
+        style="?android:borderlessButtonStyle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Game Start"
-        android:layout_above="@+id/howToPlayButton"/>
+        android:layout_height="87dp"
+        android:layout_marginBottom="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/howToPlayButton"
+        android:layout_marginEnd="10dp"
+        android:background="@null"
+        android:src="@drawable/btn_play" />
 
-    <Button
+    <ImageButton
         android:id="@+id/howToPlayButton"
+        style="?android:borderlessButtonStyle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="How to Play"
+        android:layout_height="87dp"
+        android:layout_marginBottom="100dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/infoButton"/>
+        android:background="@null"
+        android:src="@drawable/btn_how" />
 
-    <Button
+    <ImageButton
         android:id="@+id/infoButton"
-        android:layout_width= "wrap_content"
-        android:layout_height= "wrap_content"
-        android:text= "Info"
-        android:layout_alignParentBottom = "true"
-        android:layout_centerHorizontal = "true"/>
+        style="?android:borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="87dp"
+        android:layout_marginBottom="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/howToPlayButton"
+        android:layout_marginStart="10dp"
+        android:background="@null"
+        android:src="@drawable/btn_info" />
 
 </RelativeLayout>
