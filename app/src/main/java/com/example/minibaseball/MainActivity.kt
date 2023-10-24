@@ -1,5 +1,6 @@
 package com.example.minibaseball
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,12 +8,14 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
+import androidx.appcompat.app.AlertDialog
 import com.example.minibaseball.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var inputNumber = mutableListOf<Int?>(null, null, null)
-    private val target = generateTarget()
+    private var target = generateTarget()
+    private var tries = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,6 +39,7 @@ class MainActivity : AppCompatActivity() {
             val userInput = inputNumber.joinToString("")
 
             if (userInput.length == 3) { // 입력된 숫자가 3개인 경우에만 처리합니다.
+                tries++ // 시도 횟수 증가
                 val result = checkGuess(userInput, target)
 
                 // answer TextView 업데이트
@@ -75,10 +79,13 @@ class MainActivity : AppCompatActivity() {
                     binding.a2,
                     binding.a3
                 ).forEach { it.setImageResource(R.drawable.baseline_question_mark_24) }
+                if (result.first == 3) { // 스트라이크 개수 확인
+                    showGameEndDialog()
+                }
             }
         }
-//delete 버튼에 대한 기능 설정
-        binding.btndelete.setOnClickListener {
+            //delete 버튼에 대한 기능 설정
+            binding.btndelete.setOnClickListener {
             // 입력값 초기화
             inputNumber.fill(null)
 
@@ -90,8 +97,8 @@ class MainActivity : AppCompatActivity() {
             ).forEach { it.setImageResource(R.drawable.baseline_question_mark_24) }
         }
     }
-//입력된 값 표기
-            private fun addNumberToInput(number: Int) {
+            //입력된 값 표기
+        private fun addNumberToInput(number: Int) {
                 // 첫 번째 빈 위치 찾기
                 val position = inputNumber.indexOf(null)
                 if (position != -1) {
@@ -111,28 +118,55 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+        private fun showGameEndDialog() {
+             AlertDialog.Builder(this)
+            .setTitle("축하합니다!")
+            .setMessage("축하합니다. ${tries}회 만에 맞추셨어요.")
+            .setPositiveButton("새 게임") { _, _ ->
+                resetGame()
+            }
+            .setNegativeButton("메인 화면") { _, _ ->
+                goToSplashActivity()
+            }.show()
+    }
+    private fun resetGame() {
+        target = generateTarget()
+        tries = 0
+        inputNumber.fill(null)
+
+        listOf(
+            binding.a1,
+            binding.a2,
+            binding.a3
+        ).forEach { it.setImageResource(R.drawable.baseline_question_mark_24) }
+    }
+
+    private fun goToSplashActivity() {
+        val intent = Intent(this, SplashActivity::class.java)
+        startActivity(intent)
+    }
             private fun getImageResource(number: Int): Int {//이미지 불러오기
                 val resourceName = "baseline_filter_${number}_24"
                 return resources.getIdentifier(resourceName, "drawable", packageName)
 
                 }
             }
-        private fun generateTarget(): String {
-            return (100..999).random().toString()
+private fun generateTarget(): String {
+    val numbers = (1..9).shuffled().take(3)
+    return numbers.joinToString("")
+}
+
+private fun checkGuess(guess: String, target: String): Pair<Int, Int> {
+    var strikes = 0
+    var balls = 0
+
+    for (i in guess.indices) {
+        if (guess[i] == target[i]) {
+            strikes++
+        } else if (target.contains(guess[i])) {
+            balls++
         }
+    }
 
-        private fun checkGuess(guess: String, target: String): Pair<Int, Int> {
-            var strikes = 0
-            var balls = 0
-
-            for (i in guess.indices) {
-                if (guess[i] == target[i]) {
-                    strikes++
-                } else if (target.contains(guess[i])) {
-                    balls++
-                }
-            }
-
-            return Pair(strikes, balls)
-        }
-
+    return Pair(strikes, balls)
+}
