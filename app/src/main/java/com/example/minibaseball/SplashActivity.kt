@@ -1,5 +1,6 @@
 package com.example.minibaseball
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.minibaseball.databinding.ActivitySplashBinding
@@ -15,6 +16,8 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.startButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
             // 게임 시작 로직 구현
         }
 
