@@ -11,10 +11,11 @@ android {
 
         defaultConfig {
             applicationId = "com.example.minibaseball"
+            namespace = "com.example.minibaseball"
             minSdk = 31
             targetSdk = 33
             versionCode = 1
-            versionName = "1.0"
+            versionName = "1.00.00"
 
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }

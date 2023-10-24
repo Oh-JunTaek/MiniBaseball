@@ -8,6 +8,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.example.minibaseball.databinding.ActivityMainBinding
 
@@ -71,6 +72,10 @@ class MainActivity : AppCompatActivity() {
                     if (binding.boardText.text.isEmpty()) "" else "${binding.boardText.text}\n"
                 binding.boardText.text =
                     TextUtils.concat(prevText,userInputTextBoard ,ballInfoBoard ,strikeInfoBoard)
+
+                //스크롤 뷰 설정
+                binding.boardText.text = TextUtils.concat(prevText,userInputTextBoard ,ballInfoBoard ,strikeInfoBoard)
+                binding.board.fullScroll(View.FOCUS_DOWN)
 
                 // 입력 초기화
                 inputNumber.fill(null)
@@ -151,22 +156,22 @@ class MainActivity : AppCompatActivity() {
 
                 }
             }
-private fun generateTarget(): String {
-    val numbers = (1..9).shuffled().take(3)
-    return numbers.joinToString("")
+        private fun generateTarget(): String {
+            val numbers = (1..9).shuffled().take(3)
+            return numbers.joinToString("")
 }
 
-private fun checkGuess(guess: String, target: String): Pair<Int, Int> {
-    var strikes = 0
-    var balls = 0
+    private fun checkGuess(guess: String, target: String): Pair<Int, Int> {
+        var strikes = 0
+        var balls = 0
 
-    for (i in guess.indices) {
-        if (guess[i] == target[i]) {
-            strikes++
-        } else if (target.contains(guess[i])) {
-            balls++
+        for (i in guess.indices) {
+            if (guess[i] == target[i]) {
+                strikes++
+            } else if (target.contains(guess[i])) {
+                balls++
+            }
         }
-    }
 
-    return Pair(strikes, balls)
-}
+        return Pair(strikes, balls)
+    }
