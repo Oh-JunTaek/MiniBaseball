@@ -1,9 +1,10 @@
 # MiniBaseball
 숫자야구게임을 안드로이드로 만들어보자. 우테코 1주차 과제를 응용하여 안드로이드 앱에 적용해보기
-![image](https://github.com/Oh-JunTaek/MiniBaseball/assets/143782929/0f836444-92ea-4b72-afe6-49460c6f11a3)
+![image](https://github.com/Oh-JunTaek/MiniBaseball/assets/143782929/783b3131-77a2-413f-8582-e2bea50c6ee0)
+
 
 ## 업데이트 로그
-1. 버전 1.00.00
+1. 초기 버전 2.00.01 구글스토어 검토신청[2023/10/25] 
 2. 
 
 
