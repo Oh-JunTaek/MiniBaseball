@@ -4,19 +4,15 @@ plugins {
 }
 
 android {
-    namespace = "com.example.minibaseball"
     compileSdk = 34
-    viewBinding {
-        enable = true
 
         defaultConfig {
-            applicationId = "com.example.minibaseball"
-            namespace = "com.example.minibaseball"
+            applicationId = "com.eubaseball.minibaseball"
+            namespace = "com.eubaseball.minibaseball"
             minSdk = 31
             targetSdk = 33
             versionCode = 1
             versionName = "1.00.00"
-
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
 
@@ -36,6 +32,8 @@ android {
         kotlinOptions {
             jvmTarget = "1.8"
         }
+    viewBinding {
+        enable = true
     }
 
     dependencies {
