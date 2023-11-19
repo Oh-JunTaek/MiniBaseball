@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toStartOf="@+id/answer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main"
-        app:srcCompat="@drawable/npc2" />
+        app:srcCompat="@drawable/npc2"/>
 
     <ImageView
         android:id="@+id/main"
