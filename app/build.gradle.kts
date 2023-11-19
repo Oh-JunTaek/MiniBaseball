@@ -11,8 +11,8 @@ android {
             namespace = "com.eubaseball.minibaseball"
             minSdk = 31
             targetSdk = 33
-            versionCode = 2
-            versionName = "2.02"
+            versionCode = 4
+            versionName = "1.04"
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
 
