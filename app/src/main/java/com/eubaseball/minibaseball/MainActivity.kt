@@ -13,13 +13,13 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.eubaseball.minibaseball.databinding.ActivityMainBinding
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var inputNumber = mutableListOf<Int?>(null, null, null)
-    private var target = generateTarget()
+    private var target = GameUtils.generateTarget()
     private var tries = 0
     private var recordCount = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         setupNumberButtons()
         setupOkButton()
         setupDeleteButton()
-    }
+    }//숫자,확인,삭제 버튼 설정 함수 호출
 
     private fun setupNumberButtons() {
         listOf(
@@ -45,26 +45,26 @@ class MainActivity : AppCompatActivity() {
                 addNumberToInput(index + 1)
             }
         }
-    }
+    }//숫자 버튼
 
     private fun setupOkButton() {
         binding.btnok.setOnClickListener {
             handleGuess()
         }
-    }
+    }//확인 버튼
 
     private fun setupDeleteButton() {
         binding.btndelete.setOnClickListener {
             resetInput()
         }
-    }
+    }//삭제 버튼
 
     private fun handleGuess() {
         val userInput = inputNumber.joinToString("")
         if (userInput.length == 3) {
             tries++
             recordCount++
-            val result = checkGuess(userInput, target)
+            val result = GameUtils.checkGuess(userInput, target)
             updateAnswerText(userInput, result)
             updateBoardText(userInput, result)
             resetInput()
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                 showGameEndDialog()
             }
         }
-    }
+    }//사용자 추측 처리, 결과 화면 표출
 
     private fun updateAnswerText(userInput: String, result: Pair<Int, Int>) {
         val userInputText = SpannableString("너가 말한 숫자\n${userInput}\n의 결과는")
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         binding.answer.text = TextUtils.concat(userInputText, ballInfo, strikeInfo)
-    }
+    }//추측 결과 표출
 
     private fun updateBoardText(userInput: String, result: Pair<Int, Int>) {
         val boardTextBuilder = if (binding.boardText.text is SpannableStringBuilder) {
@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.boardText.text = boardTextBuilder
         scrollToBottom()
-    }
+    }//결과판
 
     private fun resetInput() {
         inputNumber.fill(null)
@@ -151,50 +151,32 @@ class MainActivity : AppCompatActivity() {
             binding.a2,
             binding.a3
         ).forEach { it.setImageResource(R.drawable.btnquestion) }
-    }
+    }//입력 초기화
 
     private fun scrollToBottom() {
         binding.board.fullScroll(View.FOCUS_DOWN)
-    }
+    }//스크롤바
 
-    //입력된 값 표기
     private fun addNumberToInput(number: Int) {
-        // 첫 번째 빈 위치 찾기
         val position = inputNumber.indexOf(null)
         if (position != -1) {
             inputNumber[position] = number
 
-            // 이미지 불러오기(하단 getImageResource참조)
             when (position) {
                 0 -> {
-                    binding.a1.setImageResource(getImageResource(number))
+                    binding.a1.setImageResource(GameUtils.getImageResource(number))
                 }
 
                 1 -> {
-                    binding.a2.setImageResource(getImageResource(number))
+                    binding.a2.setImageResource(GameUtils.getImageResource(number))
                 }
 
                 2 -> {
-                    binding.a3.setImageResource(getImageResource(number))
+                    binding.a3.setImageResource(GameUtils.getImageResource(number))
                 }
             }
         }
-    }
-
-    private fun getImageResource(number: Int): Int {
-        return when (number) {
-            1 -> R.drawable.btn1
-            2 -> R.drawable.btn2
-            3 -> R.drawable.btn3
-            4 -> R.drawable.btn4
-            5 -> R.drawable.btn5
-            6 -> R.drawable.btn6
-            7 -> R.drawable.btn7
-            8 -> R.drawable.btn8
-            9 -> R.drawable.btn9
-            else -> R.drawable.btnquestion
-        }
-    }
+    }//입력된 숫자 추가
 
     private fun showGameEndDialog() {
         AlertDialog.Builder(this)
@@ -206,10 +188,10 @@ class MainActivity : AppCompatActivity() {
             .setNegativeButton("메인 화면") { _, _ ->
                 goToSplashActivity()
             }.show()
-    }
+    }//게임 끝 엔딩 대화상자
 
     private fun resetGame() {
-        target = generateTarget()
+        target = GameUtils.generateTarget()
         tries = 0
         inputNumber.fill(null)
 
@@ -218,30 +200,10 @@ class MainActivity : AppCompatActivity() {
             binding.a2,
             binding.a3
         ).forEach { it.setImageResource(R.drawable.baseline_question_mark_24) }
-    }
+    }//게임 초기화
 
     private fun goToSplashActivity() {
         val intent = Intent(this, SplashActivity::class.java)
         startActivity(intent)
-    }
-
-    private fun generateTarget(): String {
-        val numbers = (1..9).shuffled().take(3)
-        return numbers.joinToString("")
-    }
-
-    private fun checkGuess(guess: String, target: String): Pair<Int, Int> {
-        var strikes = 0
-        var balls = 0
-
-        for (i in guess.indices) {
-            if (guess[i] == target[i]) {
-                strikes++
-            } else if (target.contains(guess[i])) {
-                balls++
-            }
-        }
-
-        return Pair(strikes, balls)
     }
 }
