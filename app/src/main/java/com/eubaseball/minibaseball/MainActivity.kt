@@ -136,9 +136,7 @@ class MainActivity : AppCompatActivity() {
         )
         boardTextBuilder.append(strikeInfoBoard)
 
-        if (recordCount % 1 == 0) {
-            boardTextBuilder.append("\n")
-        }
+        boardTextBuilder.append("\n")
 
         binding.boardText.text = boardTextBuilder
         scrollToBottom()
