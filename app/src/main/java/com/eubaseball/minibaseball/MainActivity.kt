@@ -11,20 +11,25 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import com.eubaseball.minibaseball.databinding.ActivityMainBinding
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var gameSessionManager: GameSessionManager
     private var inputNumber = mutableListOf<Int?>(null, null, null)
     private var target = GameUtils.generateTarget()
-    private var tries = 0
     private var recordCount = 0
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        gameSessionManager = GameSessionManager(this)
 
         setupButtons()
     }
@@ -62,7 +67,7 @@ class MainActivity : AppCompatActivity() {
     private fun handleGuess() {
         val userInput = inputNumber.joinToString("")
         if (userInput.length == 3) {
-            tries++
+            gameSessionManager.tries++
             recordCount++
             val result = GameUtils.checkGuess(userInput, target)
             updateAnswerText(userInput, result)
@@ -177,27 +182,34 @@ class MainActivity : AppCompatActivity() {
     }//입력된 숫자 추가
 
     private fun showGameEndDialog() {
+        gameSessionManager.playCount++
+
         AlertDialog.Builder(this)
             .setTitle("축하합니다!")
-            .setMessage("축하합니다. ${tries}회 만에 맞추셨어요.")
+            .setMessage("축하합니다. ${gameSessionManager.tries}회 만에 맞추셨어요.")
             .setPositiveButton("새 게임") { _, _ ->
+                lifecycleScope.launch {
+                    Achievements.checkAchievements(gameSessionManager.tries, gameSessionManager.playCount)
+                }
                 resetGame()
             }
             .setNegativeButton("메인 화면") { _, _ ->
                 goToSplashActivity()
             }.show()
-    }//게임 끝 엔딩 대화상자
+    }
 
     private fun resetGame() {
         target = GameUtils.generateTarget()
-        tries = 0
+        gameSessionManager.tries = 0
         inputNumber.fill(null)
+
+        binding.boardText.text = ""
 
         listOf(
             binding.a1,
             binding.a2,
             binding.a3
-        ).forEach { it.setImageResource(R.drawable.baseline_question_mark_24) }
+        ).forEach { it.setImageResource(R.drawable.btnquestion) }
     }//게임 초기화
 
     private fun goToSplashActivity() {

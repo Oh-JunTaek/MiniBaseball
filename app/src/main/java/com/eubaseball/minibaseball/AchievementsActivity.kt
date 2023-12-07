@@ -26,4 +26,13 @@ object Achievements {
     fun isUnlocked(id: String): Boolean {
         return achievements.any { it.id == id }
     }
+    suspend fun checkAchievements(tries: Int, playCount: Int) {
+        if (tries == 1 && !isUnlocked("Lucky Player")) {
+            unlock(Achievement("Lucky Player", "1회만에 게임을 클리어했습니다.", Date()))
+        }
+        if (playCount == 1 && !isUnlocked("Wellcome")) {
+            unlock(Achievement("Wellcome", "처음으로 게임을 플레이했습니다.", Date()))
+        }
+        // 여기에 다른 업적을 체크하는 코드를 추가합니다.
+    }
 }
