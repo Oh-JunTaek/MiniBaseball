@@ -195,7 +195,9 @@ class MainActivity : AppCompatActivity() {
             }
             .setNegativeButton("메인 화면") { _, _ ->
                 goToSplashActivity()
-            }.show()
+            }
+            .setCancelable(false)
+                .show()
     }
 
     private fun resetGame() {
