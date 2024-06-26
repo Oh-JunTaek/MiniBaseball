@@ -7,7 +7,7 @@
 
 ## 요약
 1. 초기 버전 2.00.01 구글스토어 검토신청[2023/10/25] 
-2. 구글 플레이 스토어 출시 [2023/10/30]
+2. 구글 플레이 스토어 출시 [2023/10/30] https://play.google.com/store/apps/details?id=com.eubaseball.minibaseball
 
 ## 업데이트 로그
 1. [2.01]
